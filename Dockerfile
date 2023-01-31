@@ -1,12 +1,12 @@
 # -- Build ---
-FROM azul/zulu-openjdk-alpine:17-latest AS build
+FROM azul/zulu-openjdk-debian:17-latest AS build
 LABEL Sebas Álvaro <https://asgg.cl>
 
 ARG TARGETARCH
 ARG MCVERSION=1.19.3
 
-RUN apk update && apk upgrade
-RUN apk add curl
+RUN apt-get update -y && apt-get upgrade -y 
+RUN apt-get install curl -y
 
 WORKDIR /opt/minecraft
 
@@ -16,9 +16,10 @@ RUN chmod +x /getpurpurserver.sh
 RUN /getpurpurserver.sh ${MCVERSION}
 
 # --- Runtime ---
-FROM azul/zulu-openjdk-alpine:17-latest AS runtime
-RUN apk update && apk upgrade
-RUN apk add curl jq libstdc++ libgcc
+FROM azul/zulu-openjdk-debian:17-latest AS runtime
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install curl jq sqlite3 -y
+
 ARG TARGETARCH
 
 ARG GOSUVERSION=1.16
