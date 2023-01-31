@@ -49,6 +49,9 @@ ENV JAVAFLAGS=$java_flags
 ARG papermc_flags="--nojline"
 ENV PAPERMC_FLAGS=$papermc_flags
 
+ARG purpurmc_flags="-DPurpur.IReallyDontWantSpark=true"
+ENV PURPURMC_FLAGS=$purpurmc_flags
+
 WORKDIR /data
 
 COPY /docker-entrypoint.sh /opt/minecraft

@@ -10,6 +10,7 @@ services:
     environment:
       MEMORYSIZE: "1G"
       PAPERMC_FLAGS: ""
+      PURPURMC_FLAGS: ""
       PUID: ""
       PGID: ""
     volumes:
