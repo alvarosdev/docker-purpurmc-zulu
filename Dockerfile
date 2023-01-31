@@ -1,5 +1,5 @@
 # -- Build ---
-FROM azul/zulu-openjdk-alpine:19-latest AS build
+FROM azul/zulu-openjdk-alpine:17-latest AS build
 LABEL Sebas Álvaro <https://asgg.cl>
 
 ARG TARGETARCH
@@ -16,7 +16,7 @@ RUN chmod +x /getpurpurserver.sh
 RUN /getpurpurserver.sh ${MCVERSION}
 
 # --- Runtime ---
-FROM azul/zulu-openjdk-alpine:19-latest AS runtime
+FROM azul/zulu-openjdk-alpine:17-latest AS runtime
 RUN apk update && apk upgrade
 RUN apk add curl jq libstdc++ libgcc
 ARG TARGETARCH
