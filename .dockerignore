@@ -1,2 +1,4 @@
 world*/**
 plugins/**
+logs/**
+versions/**
