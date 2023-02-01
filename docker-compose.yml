@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   minecraft:
-    container_name: "mcserver-zulu"
+    container_name: "mcserver"
     build:
       dockerfile: ./Dockerfile
       context: ./
