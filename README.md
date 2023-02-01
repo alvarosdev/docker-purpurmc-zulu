@@ -1,23 +1,26 @@
-# Docker Minecraft JAVA, Running Purpur on Zulu OpenJDK
-This is a docker image to run a Minecraft Java Edition server with Purpur on Zulu OpenJDK. This works on AMD64 and ARM64 Machines.
+# Minecraft Java server 1.19 with PurpurMC & Zulu OpenJDK
+
+This is a docker image for [PurpurMC](https://purpurmc.org) with [Zulu OpenJDK](https://www.azul.com/downloads) as runtime.
 
 # What is [PurpurMC](https://purpurmc.org)?
-> Purpur is a drop-in replacement for Paper servers designed for configurability and new, fun, exciting gameplay features.
+Purpur is a drop-in replacement for Paper servers designed for configurability and new, fun, exciting gameplay features.
 
+# What is [Zulu OpenJDK](https://www.azul.com/downloads)?
+> Zulu OpenJDK is a free, fully compliant, 100% open-source implementation of the Java SE Platform, Standard Edition.
+>
+> That's  _The Official description of Zulu OpenJDK_ on their website.
 
-# How to run
+### IMHO:
+> Zulu has a good Garbage Collector and memory usage, and it is (according to internet nerds) stable than others OpenJDK implementations.
+> I'm not a Java Developer so I don't know if this is true, but I have been using it for a long time and I haven't had any problems running the game and the server.
 
-## Requirements
+# Requirements
 * docker
 * docker-compose
 * A Linux system or WSL2
 * Architecture: amd64 or arm64.
-  
-> **Note**
-> I'm running this image on a Oracle arm64 instance on Oracle Cloud.
-> Also a Windows Machine with WSL2 (amd64).
 
-## Create a docker-compose.yml file
+# Creating a docker-compose.yml file
 I work with docker-compose, so I will show you how to run it with docker-compose.
 
 ```yml
@@ -25,8 +28,13 @@ version: "3.9"
 
 services:
   minecraft:
-    container_name: "minecraftpurpur"
+    container_name: "mcserver"
     image: "als3bas/zulu-purpurmc:latest"
+    # if you want to use the Dockerfile in this repo
+    # uncomment the following lines and comment the image line
+    # build: 
+    #   context: .
+    #   dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       - MEMORYSIZE: "1G"
@@ -43,7 +51,70 @@ services:
     tty: true
 ```
 
-## Running
+# Update the container
+
+```sh
+make update-container
+```
+or
+```sh
+docker-compose stop
+docker-compose pull
+docker-compose up -d
+``` 
+
+# Running the server
+
+### Run
+Run the server with the following command:
+
+```sh
+docker-compose up -d --build
+```
+
+### Stop
+Stop the server with the following command:
+
+```sh
+docker-compose stop
+``` 
+
+### Logs
+To see the logs of the server, run the following command:
+
+```sh
+docker-compose logs -f 
+```
+
+## Using the makefile 
+You can use the makefile on this repo
+```sh
+# run the server
+make start
+
+# stop the server
+make stop
+
+# down the server
+make down
+
+# build the server
+# useful if you want to update the purpurmc version
+# you won't lose your world, plugins or config files 😉
+make build
+
+# restart the server
+# useful if you want to update the config or plugin files 
+make restart
+
+# attach to the server console
+# you can use the server commands like /op /reload, etc
+# Remember to use CTRL + P + Q to detach from the console without stopping the server
+make attach
+
+# show the last 20 lines of the log
+make logs
+```
 
 
 # Known issues
