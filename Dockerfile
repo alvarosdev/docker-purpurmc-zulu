@@ -3,6 +3,7 @@ FROM azul/zulu-openjdk-debian:17-latest AS build
 LABEL Sebas Álvaro <https://asgg.cl>
 
 ARG TARGETARCH
+# Rembember to change this to the latest version if available
 ARG MCVERSION=1.19.3
 
 RUN apt-get update -y && apt-get upgrade -y 
