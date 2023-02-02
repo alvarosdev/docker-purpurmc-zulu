@@ -1,6 +1,7 @@
 # Minecraft Java server 1.19 with PurpurMC & Zulu OpenJDK
 
-This is a docker image for [PurpurMC](https://purpurmc.org) with [Zulu OpenJDK](https://www.azul.com/downloads) as runtime.
+This is a docker image for [PurpurMC](https://purpurmc.org) with [Zulu OpenJDK (Debian)](https://www.azul.com/downloads) as runtime.
+You're free to fork this repo and modify it to your liking.
 
 # What is [PurpurMC](https://purpurmc.org)?
 Purpur is a drop-in replacement for Paper servers designed for configurability and new, fun, exciting gameplay features.
