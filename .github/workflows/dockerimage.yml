@@ -6,7 +6,7 @@ on:
       branches:
       - 'main'
   schedule:
-  - cron: "0 */12 * * *"
+  - cron: "0 */24 * * *"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -27,7 +27,7 @@ jobs:
         pass: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         slug: als3bas/zulu-purpurmc
         readme: ./README.md
-        description: Minecraft Java Server 1.19+ — Starts fast, runs stable and is always up-to-date.
+        description: Minecraft 1.19 Server Running on PurpurMC and Zulu OpenJDK.
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
     - name: Set up Docker Buildx
