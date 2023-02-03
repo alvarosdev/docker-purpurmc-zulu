@@ -182,4 +182,4 @@ sudo nano /etc/docker/daemon.json
 
 # References
 * This docker image is based on my repo [docker-papermc-graalvm](https://github.com/als3bas/docker-papermc-graalvm) which uses PaperMC & GraalVM as runtime.
-* Based on the work of [mtoensing papermc server](https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server)
+* Based on the work of [mtoensing](https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server)
