@@ -12,36 +12,36 @@ help: ## prints this message ##
 	grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 	perl -nle '/(.*?): ## (.*?) ## (.*$$)/; if ($$3 eq "") { printf ( "$(COMMAND_COLOR)%-20s$(DESC_COLOR)%s$(CLEAR_COLOR)\n\n", $$1, $$2) } else { printf ( "$(COMMAND_COLOR)%-20s$(DESC_COLOR)%s$(CLEAR_COLOR)\n%-20s%s\n\n", $$1, $$2, " ", $$3) }';
 
-.PHONY: start
-start: ## starts the minecraft server ## 
+.PHONY: up
+up: ## 🚙 Runs the Minecraft server ## (docker-compose up -d) 
 	@echo "📦 Starting Minecraft Server..."; \
-	docker-compose up -d --build --force-recreate;
+	docker-compose up -d;
 
 .PHONY: stop
-stop: ## stops and cleans up images, but keeps data ## 
+stop: ## 🛑 Stops the Minecraft server ## (docker-compose stop) 
 	@echo "🛑 Stopping Minecraft Server and cleaning up..."; \
-	docker-compose down --rmi all --remove-orphans;
+	docker-compose stop;
 
 .PHONY: down
-down: ## down server ## 
+down: ## 👎 Stops and remove containers, but keeps data ## (docker-compose down) 
 	@echo "👎🏻 Down server..."; \
 	docker-compose down;
 
 .PHONY: build
-build: ## Rebuild the docker container and try to get the latest papermc version ## Only works with docker-compose.yml -> build
+build: ## 📦 Rebuilds the container (Keeps Data) ## (Only with the Dockerfile, otherwise 'update-container' command ) 
 	@echo "🛠️ Building server and getting latest papermc version" ; \
-	make stop; \
-	make start; \
+	docker-compose down --rmi all --remove-orphans;
+	docker-compose up -d --build --force-recreate; \
 	make logs;
 
 .PHONY: restart
-restart: ## Useful if you want to reload plugins or anything  ## 
+restart: ## 🔃 Restarts the container  ## (Useful to reload plugins or config files, this will kick all players)
 	@echo "💣 Restarting the server (docker)"; \
 	docker-compose restart; \
 	make logs;
 
 .PHONY: update-container
-update-container: ## updates the container ## (works with docker-compose)
+update-container: ## 💻 Update the container image ## (Only with the docker-compose image, otherwise 'build' command)
 	@echo "💣 Restarting the server (docker)"; \
 	docker-compose stop; \
 	docker-compose pull; \
@@ -49,15 +49,15 @@ update-container: ## updates the container ## (works with docker-compose)
 	make logs;
 
 .PHONY: attach
-attach: ## docker attach mcserver ## (attaches to minecraft paper jar for issuing commands)
+attach: ## 💻 Attach the Minecraft server console ## (Remember to press Ctrl-P Ctrl-Q to detach, not Ctrl-C) 
 	@echo "📌 Attaching to Minecraft..."; \
-	echo "Ctrl-C stops minecraft and exits"; \
+	echo "Ctrl-C stops Minecraft and exits"; \
 	echo "Ctrl-P Ctrl-Q only exits"; \
 	echo ""; \
 	echo "Type "help" for help."; \
 	docker attach mcserver;
 
 .PHONY: logs
-logs: ## Show the last 20 lines of the logs ## 
+logs: ## 🧻 Show the last 20 logs ## (docker-compose logs --tail 20 -f) 
 	echo "🧻 Logs..."; \
 	docker-compose logs --tail 20 -f ;
