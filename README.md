@@ -1,4 +1,4 @@
-<img src="assets/logo.png" align="center" />
+<img src="assets/logo_margins.png" align="center" />
 
 ![Docker Image Version (latest semver)](https://img.shields.io/docker/v/als3bas/zulu-purpurmc?sort=semver)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/als3bas/zulu-purpurmc/latest)
