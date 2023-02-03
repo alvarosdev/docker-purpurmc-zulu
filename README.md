@@ -155,7 +155,7 @@ make logs
 
 * I can't upload/remove/edit files. [🔎 Click Here](#Running-as-non-root-user)
 * Problems downloading .jar from mojang servers [🔎 Click Here](#Problems-downloading-jar-from-mojang-servers)
-* The server crashes with Spark Profiler Modify the [🔎 docker-compose.yml](#Creating-a-docker-compose.yml-file)
+* The server crashes with Spark Profiler Modify the [🔎 docker-compose.yml](#creating-a-docker-composeyml-file)
   * Add this flag `-DPurpur.IReallyDontWantSpark=true` to the `PURPURMC_FLAGS` environment variable.
 
 
