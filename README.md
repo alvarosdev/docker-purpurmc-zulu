@@ -2,9 +2,10 @@
 
 ![](assets/logo.png)
 
-[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/als3bas/zulu-purpurmc?sort=semver)](https://hub.docker.com/r/als3bas/zulu-purpurmc)
-[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/als3bas/zulu-purpurmc/latest)](https://hub.docker.com/r/als3bas/zulu-purpurmc)
-[![Docker Pulls](https://img.shields.io/docker/pulls/als3bas/zulu-purpurmc)](https://hub.docker.com/r/als3bas/zulu-purpurmc)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/als3bas/zulu-purpurmc?sort=semver)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/als3bas/zulu-purpurmc/latest)
+![Docker Pulls](https://img.shields.io/docker/pulls/als3bas/zulu-purpurmc)
+![](https://img.shields.io/github/license/als3bas/docker-purpurmc-zulu)
 
 </center>
 
