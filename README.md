@@ -1,19 +1,29 @@
-# Minecraft Java server 1.19 with PurpurMC & Zulu OpenJDK
+<center>
 
-This is a docker image for [PurpurMC](https://purpurmc.org) with [Zulu OpenJDK (Debian)](https://www.azul.com/downloads) as runtime.
-You're free to fork this repo and modify it to your liking.
+![](assets/logo.png)
 
-# What is [PurpurMC](https://purpurmc.org)?
-Purpur is a drop-in replacement for Paper servers designed for configurability and new, fun, exciting gameplay features.
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/als3bas/zulu-purpurmc?sort=semver)](https://hub.docker.com/r/als3bas/zulu-purpurmc)
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/als3bas/zulu-purpurmc/latest)](https://hub.docker.com/r/als3bas/zulu-purpurmc)
+[![Docker Pulls](https://img.shields.io/docker/pulls/als3bas/zulu-purpurmc)](https://hub.docker.com/r/als3bas/zulu-purpurmc)
 
-# What is [Zulu OpenJDK](https://www.azul.com/downloads)?
-> Zulu OpenJDK is a free, fully compliant, 100% open-source implementation of the Java SE Platform, Standard Edition.
->
-> That's  _The Official description of Zulu OpenJDK_ on their website.
+</center>
 
-### IMHO:
-> Zulu has a good Garbage Collector and memory usage, and it is (according to internet nerds) stable than others OpenJDK implementations.
-> I'm not a Java Developer so I don't know if this is true, but I have been using it for a long time and I haven't had any problems running the game and the server.
+
+# What is this?
+
+This is a docker image for [PurpurMC](https://purpurmc.org) with [Zulu OpenJDK (Debian)](https://www.azul.com/downloads) as java runtime.
+
+Purpur is _a drop-in replacement for PaperMC servers designed for configurability and new, fun, exciting gameplay features._
+
+[Zulu OpenJDK](https://www.azul.com/downloads) _is a free, fully compliant, 100% open-source implementation of the Java SE Platform, Standard Edition._
+
+**You're free to fork this repo and modify it to your needs.**
+
+## Why Zulu instead of Temurin, Graalvm, Corretto, etc?
+I just wanted to try it, and almost every openjdk implementation are the same.
+The only problem is that Zulu depends on a single company (Azul), and if they want to change their license or policies, they can do it.
+
+**Anyway, I will replicate this repo with Adoptium/Temurin**
 
 # Requirements
 * docker
@@ -23,6 +33,9 @@ Purpur is a drop-in replacement for Paper servers designed for configurability a
 
 # Creating a docker-compose.yml file
 I work with docker-compose, so I will show you how to run it with docker-compose.
+
+> **Warning**
+> Remember to change PUID and PGID to your user and group id to run as non-root user.
 
 ```yml
 version: "3.9"
@@ -39,8 +52,8 @@ services:
     restart: unless-stopped
     environment:
       - MEMORYSIZE: "1G"
-      - PUID: "1000"
-      - PGID: "984"
+      - PUID: "xxxx"
+      - PGID: "xxxx"
       - PAPERMC_FLAGS : ""
       - PURPURMC_FLAGS: ""
       ### if you have problems with spark, you can disable it with this flag "-DPurpur.IReallyDontWantSpark=true" on PURPURMC_FLAGS
@@ -50,6 +63,26 @@ services:
       - "25565:25565"
     stdin_open: true
     tty: true
+```
+
+# Running as non-root user
+
+Set the PUID and PGID environment variables to the user and group id of the user you want to run the server as.
+To get those values, run the following command:
+
+```sh
+id $USER
+uid=1000(alvaro) gid=984(users) groups=984(users),998(wheel),973(docker)
+```
+
+Then in the docker-compose.yml file add the following environment variables:
+
+```yaml
+# docker-compose.yml
+# In this example the user is alvaro 1000 and the group is users 984
+environment:
+  - PUID=1000
+  - PGID=984
 ```
 
 # Update the container
@@ -118,44 +151,26 @@ make logs
 ```
 
 
-# Known issues
+# Common issues
 
-## Running as non-root user
+* I can't upload/remove/edit files. [🔎 Click Here](#Running-as-non-root-user)
+* Problems downloading .jar from mojang servers [🔎 Click Here](#Problems-downloading-jar-from-mojang-servers)
+* The server crashes with Spark Profiler Modify the [🔎 docker-compose.yml](#Creating-a-docker-compose.yml-file)
+  * Add this flag `-DPurpur.IReallyDontWantSpark=true` to the `PURPURMC_FLAGS` environment variable.
 
-You must set the PUID and PGID environment variables to the user and group id of the user you want to run the server as.
-To get this information, run the following command:
 
-```sh
-id $USER
-uid=1000(alvaro) gid=984(users) groups=984(users),998(wheel),973(docker)
-```
+#  Problems downloading .jar from mojang servers
 
-And in docker-compose.yml file add the following environment variables:
-
-```yaml
-# docker-compose.yml
-# In this example the user is alvaro 1000 and the group is users 984
-environment:
-  - PUID=1000
-  - PGID=984
-```
-
-> **Note**
-> This step is necessary because the server needs to write to the volume, and the user must have the correct permissions to edit outside the container.
-
-##  Failed to download mojang_1.x.x.jar
-
-If you are using WSL2, and you have a problem like this one. 
+The `make logs` will show you something like this:
 
 ```sh
-...
 Downloading mojang_1.19.3.jar
 mcserver-zulu  | Failed to download mojang_1.19.3.jar
 mcserver-zulu  | java.net.UnknownHostException: piston-data.mojang.com
-...
 ```
 
-You must modify/create the `/etc/docker/daemon.json` file and add your favorite dns server.
+Probably you're using WSL2 and you have problems with the DNS server.
+You have to modify/create the `/etc/docker/daemon.json` file and add your favorite dns server.
 
 Example:
 ```sh
