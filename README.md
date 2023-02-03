@@ -1,13 +1,11 @@
-<center>
+<img src="assets/logo.png" align="center" />
 
-![](assets/logo.png)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/als3bas/zulu-purpurmc?sort=semver)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/als3bas/zulu-purpurmc/latest)
+![Docker Pulls](https://img.shields.io/docker/pulls/als3bas/zulu-purpurmc)
+![](https://img.shields.io/github/license/als3bas/docker-purpurmc-zulu)
 
-[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/als3bas/zulu-purpurmc?sort=semver)](https://hub.docker.com/r/als3bas/zulu-purpurmc)
-[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/als3bas/zulu-purpurmc/latest)](https://hub.docker.com/r/als3bas/zulu-purpurmc)
-[![Docker Pulls](https://img.shields.io/docker/pulls/als3bas/zulu-purpurmc)](https://hub.docker.com/r/als3bas/zulu-purpurmc)
-
-</center>
-
+----
 
 # What is this?
 
@@ -26,16 +24,16 @@ The only problem is that Zulu depends on a single company (Azul), and if they wa
 **Anyway, I will replicate this repo with Adoptium/Temurin**
 
 # Requirements
-* docker
-* docker-compose
-* A Linux system or WSL2
+* Docker [🔎 How to install](https://docs.docker.com/desktop/)
+* Docker-compose 
+* Preferably Linux, [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) or MacOS.
 * Architecture: amd64 or arm64.
 
 # Creating a docker-compose.yml file
-I work with docker-compose, so I will show you how to run it with docker-compose.
+I prefer to use docker-compose, but you can use the docker cli if you want.
 
 > **Warning**
-> Remember to change PUID and PGID to your user and group id to run as non-root user.
+> Don't forget to change the PUID and PGID envs to run as non-root user.
 
 ```yml
 version: "3.9"
@@ -43,9 +41,9 @@ version: "3.9"
 services:
   minecraft:
     container_name: "mcserver"
+    # image: "als3bas/zulu-purpurmc:1.19"
     image: "als3bas/zulu-purpurmc:latest"
-    # if you want to use the Dockerfile in this repo
-    # uncomment the following lines and comment the image line
+    # If you want to build the image locally, uncomment this 3 lines and comment the image line above.
     # build: 
     #   context: .
     #   dockerfile: Dockerfile
@@ -75,7 +73,7 @@ id $USER
 uid=1000(alvaro) gid=984(users) groups=984(users),998(wheel),973(docker)
 ```
 
-Then in the docker-compose.yml file add the following environment variables:
+Then in the docker-compose.yml add the following environment variables:
 
 ```yaml
 # docker-compose.yml
@@ -164,9 +162,9 @@ make logs
 The `make logs` will show you something like this:
 
 ```sh
-Downloading mojang_1.19.3.jar
-mcserver-zulu  | Failed to download mojang_1.19.3.jar
-mcserver-zulu  | java.net.UnknownHostException: piston-data.mojang.com
+Downloading mojang_1.xx.xx.jar
+mcserver-zulu  | Failed to download mojang_1.xx.xx.jar
+mcserver-zulu  | java.net.UnknownHostException: xxxxxxxx.mojang.com
 ```
 
 Probably you're using WSL2 and you have problems with the DNS server.
@@ -184,4 +182,5 @@ sudo nano /etc/docker/daemon.json
 
 # References
 * This docker image is based on my repo [docker-papermc-graalvm](https://github.com/als3bas/docker-papermc-graalvm) which uses PaperMC & GraalVM as runtime.
-* Based on the work of [mtoensing papermc server](https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server)
+* This repo and the previous one are based on the work of [mtoensing](https://github.com/mtoensing/Docker-Minecraft-PaperMC-Server)
+
