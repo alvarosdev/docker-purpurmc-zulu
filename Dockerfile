@@ -3,11 +3,11 @@ FROM azul/zulu-openjdk-debian:17-latest AS build
 LABEL Sebas Álvaro <https://asgg.cl>
 
 ARG TARGETARCH
-# Rembember to change this to the latest version if available
 ARG MCVERSION=1.19.3
 
-RUN apt-get update -y && apt-get upgrade -y && \
-    apt-get install curl -y
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/minecraft
 
@@ -18,13 +18,15 @@ RUN chmod +x /getpurpurserver.sh && \
 
 # --- Runtime ---
 FROM azul/zulu-openjdk-debian:17-latest AS runtime
-RUN apt-get update -y && apt-get upgrade -y && \
-    apt-get install curl jq sqlite3 -y && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    curl \
+    jq \
+    && rm -rf /var/lib/apt/lists/*
 
 ARG TARGETARCH
-
 ARG GOSUVERSION=1.16
+ARG RCON_CLI_VER=1.6.0
+
 RUN set -eux && \
     curl -fsSL "https://github.com/tianon/gosu/releases/download/${GOSUVERSION}/gosu-${TARGETARCH}" -o /usr/bin/gosu && \
     chmod +x /usr/bin/gosu && \
@@ -33,7 +35,6 @@ RUN set -eux && \
 WORKDIR /data
 COPY --from=build /opt/minecraft/purpurmc.jar /opt/minecraft/purpurmc.jar
 
-ARG RCON_CLI_VER=1.6.0
 ADD https://github.com/itzg/rcon-cli/releases/download/${RCON_CLI_VER}/rcon-cli_${RCON_CLI_VER}_linux_${TARGETARCH}.tar.gz /tmp/rcon-cli.tgz
 RUN tar -x -C /usr/local/bin -f /tmp/rcon-cli.tgz rcon-cli && \
     rm /tmp/rcon-cli.tgz
