@@ -6,26 +6,27 @@ ARG TARGETARCH
 # Rembember to change this to the latest version if available
 ARG MCVERSION=1.19.3
 
-RUN apt-get update -y && apt-get upgrade -y 
-RUN apt-get install curl -y
+RUN apt-get update -y && apt-get upgrade -y && \
+    apt-get install curl -y
 
 WORKDIR /opt/minecraft
 
 RUN rm /opt/minecraft/purpurmc.jar || true
 COPY ./getpurpurserver.sh /getpurpurserver.sh
-RUN chmod +x /getpurpurserver.sh
-RUN /getpurpurserver.sh ${MCVERSION}
+RUN chmod +x /getpurpurserver.sh && \
+    /getpurpurserver.sh ${MCVERSION}
 
 # --- Runtime ---
 FROM azul/zulu-openjdk-debian:17-latest AS runtime
-RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install curl jq sqlite3 -y
+RUN apt-get update -y && apt-get upgrade -y && \
+    apt-get install curl jq sqlite3 -y && \
+    rm -rf /var/lib/apt/lists/*
 
 ARG TARGETARCH
 
 ARG GOSUVERSION=1.16
-RUN set -eux
-RUN curl -fsSL "https://github.com/tianon/gosu/releases/download/${GOSUVERSION}/gosu-${TARGETARCH}" -o /usr/bin/gosu && \
+RUN set -eux && \
+    curl -fsSL "https://github.com/tianon/gosu/releases/download/${GOSUVERSION}/gosu-${TARGETARCH}" -o /usr/bin/gosu && \
     chmod +x /usr/bin/gosu && \
     gosu nobody true
 
