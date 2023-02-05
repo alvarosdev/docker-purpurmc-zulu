@@ -7,13 +7,11 @@
 
 ----
 
-# What is this?
-
-This is a docker image for [PurpurMC](https://purpurmc.org) with [Zulu OpenJDK (Debian)](https://www.azul.com/downloads) as java runtime.
-
-Purpur is _a drop-in replacement for PaperMC servers designed for configurability and new, fun, exciting gameplay features._
-
-[Zulu OpenJDK](https://www.azul.com/downloads) _is a free, fully compliant, 100% open-source implementation of the Java SE Platform, Standard Edition._
+# Purpur MC Running on Zulu OpenJDK 
+## What is this?
+* This is a docker image that runs a [PurpurMC](https://purpurmc.org) server on [Zulu OpenJDK](https://www.azul.com/downloads).
+* Purpur is a drop-in replacement for PaperMC servers designed for configurability and new, fun, exciting gameplay features
+* [Zulu OpenJDK](https://www.azul.com/downloads) _is a free, fully compliant, 100% open-source implementation of the Java SE Platform, Standard Edition._
 
 **You're free to fork this repo and modify it to your needs.**
 
@@ -41,7 +39,7 @@ version: "3.9"
 services:
   minecraft:
     container_name: "mcserver"
-    # image: "als3bas/zulu-purpurmc:1.19"
+    # image: "als3bas/zulu-purpurmc:1.19.3"
     image: "als3bas/zulu-purpurmc:latest"
     # If you want to build the image locally, uncomment this 3 lines and comment the image line above.
     # build: 
