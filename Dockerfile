@@ -3,8 +3,8 @@ FROM azul/zulu-openjdk-debian:17-latest AS build
 LABEL Sebas Álvaro <https://asgg.cl>
 
 ARG TARGETARCH
-ARG MCVERSION
-ENV MCVERSION=$MC_VERSION
+ARG MC_VERSION
+RUN echo $MC_VERSION
 
 RUN apt-get update && apt-get install -y \
     curl \
@@ -15,7 +15,7 @@ WORKDIR /opt/minecraft
 RUN rm /opt/minecraft/purpurmc.jar || true
 COPY ./getpurpurserver.sh /getpurpurserver.sh
 RUN chmod +x /getpurpurserver.sh && \
-    /getpurpurserver.sh ${MCVERSION}
+    /getpurpurserver.sh ${MC_VERSION}
 
 # --- Runtime ---
 FROM azul/zulu-openjdk-debian:17-latest AS runtime
