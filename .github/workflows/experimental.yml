@@ -25,7 +25,7 @@ jobs:
           pass: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           slug: als3bas/zulu-purpurmc
           readme: ./README.md
-          description: Minecraft ${{ env.MC_VERSION }} Server Running on PurpurMC and Zulu OpenJDK.
+          description: Minecraft ${{ vars.MC_VERSION_EXPERIMENTAL }} Server Running on PurpurMC and Zulu OpenJDK.
       - name: 📦 Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: 📦 Set up Docker Buildx
@@ -41,5 +41,5 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: als3bas/zulu-purpurmc:latest,als3bas/zulu-purpurmc:${{ env.MC_VERSION }}
-          build-args: MC_VERSION=${{ env.MC_VERSION }}
+          tags: als3bas/zulu-purpurmc:latest,als3bas/zulu-purpurmc:${{ vars.MC_VERSION_EXPERIMENTAL }}
+          build-args: MC_VERSION=${{ vars.MC_VERSION_EXPERIMENTAL }}
