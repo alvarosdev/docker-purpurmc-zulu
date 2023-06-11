@@ -36,3 +36,5 @@ jobs:
           push: true
           tags: als3bas/zulu-purpurmc:preview,als3bas/zulu-purpurmc:${{ vars.MC_VERSION_PRE }}-preview
           build-args: MC_VERSION=${{ vars.MC_VERSION_PRE }}
+          secrets: |
+            MC_VERSION=${{ vars.MC_VERSION_PRE }}
