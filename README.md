@@ -1,9 +1,12 @@
 <img src="assets/logo_margins.png" align="center" />
 
-![Docker Image Version (latest semver)](https://img.shields.io/docker/v/als3bas/zulu-purpurmc?sort=semver)
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/als3bas/zulu-purpurmc/latest)
-![Docker Pulls](https://img.shields.io/docker/pulls/als3bas/zulu-purpurmc)
-![](https://img.shields.io/github/license/als3bas/docker-purpurmc-zulu)
+
+![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/als3bas/zulu-purpurmc/latest?label=latest&style=for-the-badge)
+![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/als3bas/zulu-purpurmc/preview?label=preview&style=for-the-badge)
+![Docker Pulls](https://img.shields.io/docker/pulls/als3bas/zulu-purpurmc?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/als3bas/docker-purpurmc-zulu?style=for-the-badge)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/als3bas/docker-purpurmc-zulu/stable.yml?label=stable%20build&style=for-the-badge)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/als3bas/docker-purpurmc-zulu/experimental.yml?label=experimental%20build&style=for-the-badge)
 
 ----
 
