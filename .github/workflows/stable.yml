@@ -5,9 +5,7 @@ on:
     branches:
       - "main"
   schedule:
-    - cron: "0 */24 * * *"
-
-  # Allows you to run this workflow manually from the Actions tab
+    - cron: '0 */12 * * *'
   workflow_dispatch:
 
 jobs:
