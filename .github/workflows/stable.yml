@@ -1,9 +1,9 @@
-name: 🎮 Build and push (Experimental versions)
+name: 🎮 Build and push (Stable Version)
 
 on:
   push:
     branches:
-      - "feature/*"
+      - "main"
   schedule:
     - cron: "0 */24 * * *"
 
@@ -41,5 +41,5 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: als3bas/zulu-purpurmc:latest,als3bas/zulu-purpurmc:experimental-${{ vars.MC_VERSION }}
+          tags: als3bas/zulu-purpurmc:latest,als3bas/zulu-purpurmc:${{ vars.MC_VERSION }}
           build-args: MC_VERSION=${{ vars.MC_VERSION }}

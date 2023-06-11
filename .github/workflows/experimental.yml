@@ -1,9 +1,9 @@
-name: 👩🏻‍🔬 Build and push (Experimental versions)
+name: 👩🏻‍🔬 Build and push (Preview Version)
 
 on:
   push:
     branches:
-      - "feature/*"
+      - "main"
   schedule:
     - cron: "0 */24 * * *"
 
@@ -14,7 +14,7 @@ jobs:
   build:
     name: 🏃‍♂️ Build container
     runs-on: ubuntu-latest
-    if: ${{ vars.MC_VERSION_EXPERIMENTAL == '' }}
+    if: ${{ vars.MC_VERSION_PRE != '' }}
 
     steps:
       - name: 👩🏻‍🔬 Checkout code - Experimental Branch
@@ -34,5 +34,5 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: als3bas/zulu-purpurmc:experimental,als3bas/zulu-purpurmc:${{ vars.MC_VERSION_EXPERIMENTAL }}-experimental
-          build-args: MC_VERSION=${{ vars.MC_VERSION_EXPERIMENTAL }}
+          tags: als3bas/zulu-purpurmc:preview,als3bas/zulu-purpurmc:${{ vars.MC_VERSION_PRE }}-preview
+          build-args: MC_VERSION=${{ vars.MC_VERSION_PRE }}

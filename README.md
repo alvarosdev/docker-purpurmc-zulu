@@ -7,31 +7,36 @@
 
 ----
 
-# Purpur MC Running on Zulu OpenJDK 
-## What is this?
-* This is a docker image that runs a [PurpurMC](https://purpurmc.org) server on [Zulu OpenJDK](https://www.azul.com/downloads).
-* Purpur is a drop-in replacement for PaperMC servers designed for configurability and new, fun, exciting gameplay features
-* [Zulu OpenJDK](https://www.azul.com/downloads) _is a free, fully compliant, 100% open-source implementation of the Java SE Platform, Standard Edition._
+> **Disclaimer:** This project is designed for servers with diverse purposes and may not be the most suitable option for a large-scale server with a high player concurrency. It is important to note that it may require additional improvements and adjustments to effectively cater to such specific requirements. We recommend thoroughly evaluating the performance and scalability aspects before implementing it in a production environment.
 
-**You're free to fork this repo and modify it to your needs.**
 
-## Why Zulu instead of Temurin, Graalvm, Corretto, etc?
-I just wanted to try it, and almost every openjdk implementation are the same.
-The only problem is that Zulu depends on a single company (Azul), and if they want to change their license or policies, they can do it.
+This repository provides a Docker image that enables the execution of a [PurpurMC](https://purpurmc.org) server on the [Zulu OpenJDK](https://www.azul.com/downloads) platform. 
 
-**Anyway, I will replicate this repo with Adoptium/Temurin**
+- **PurpurMC** serves as an enhanced, drop-in substitute for PaperMC servers, aiming at greater flexibility and adding new, enjoyable gameplay features.
+  
+- **Zulu OpenJDK** is a complimentary, fully compliant, and 100% open-source implementation of the Java SE Platform, Standard Edition.
 
-# Requirements
-* Docker [🔎 How to install](https://docs.docker.com/desktop/)
-* Docker-compose 
-* Preferably Linux, [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) or MacOS.
-* Architecture: amd64 or arm64.
+Feel free to fork this repository and adapt it according to your requirements.
 
-# Creating a docker-compose.yml file
-I prefer to use docker-compose, but you can use the docker cli if you want.
+## Why Choose Zulu over Temurin, Graalvm, Corretto, etc?
+The choice for Zulu was influenced by a desire for exploration, as most OpenJDK implementations are quite similar. The main concern with Zulu is that it depends on a single company, Azul, which retains the right to change their license or policies at their discretion.
 
-> **Warning**
-> Don't forget to change the PUID and PGID envs to run as non-root user.
+
+# Prerequisites
+The following requirements are necessary to run the Docker image:
+
+* **Docker**: An essential platform to deploy applications inside software containers. Check out the [installation guide](https://docs.docker.com/desktop/) if not already installed.
+* **Docker-compose**: A tool for defining and running multi-container Docker applications. 
+* **Operating System**: Linux, [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install), or MacOS are preferable.
+* **Architecture**: The system architecture should be either amd64 or arm64.
+
+# Configuring a docker-compose File
+Although I recommend using docker-compose for its convenience and utility, you can opt for the Docker CLI if you prefer.
+
+> **Caution**
+> Remember to replace the PUID and PGID environment variables to operate as a non-root user.
+
+Here's a sample `docker-compose.yml` configuration for the project:
 
 ```yml
 version: "3.9"
@@ -40,10 +45,6 @@ services:
   minecraft:
     container_name: "mcserver"
     image: "als3bas/zulu-purpurmc:latest"
-    # If you want to build the image locally, uncomment this 3 lines and comment the image line above.
-    # build: 
-    #   context: .
-    #   dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       - MEMORYSIZE: "1G"
@@ -51,7 +52,6 @@ services:
       - PGID: "xxxx"
       - PAPERMC_FLAGS : ""
       - PURPURMC_FLAGS: ""
-      ### if you have problems with spark, you can disable it with this flag "-DPurpur.IReallyDontWantSpark=true" on PURPURMC_FLAGS
     volumes:
       - ./:/data:rw
     ports:
@@ -60,37 +60,36 @@ services:
     tty: true
 ```
 
-# Running as non-root user
+# Executing as a Non-root User
 
-Set the PUID and PGID environment variables to the user and group id of the user you want to run the server as.
-To get those values, run the following command:
+For security reasons, it's recommended to run the server as a non-root user. You can achieve this by setting the PUID and PGID environment variables to match the user and group ID of the chosen non-root user.
+
+To retrieve these values, use the following command:
 
 ```sh
 id $USER
-uid=1000(alvaro) gid=984(users) groups=984(users),998(wheel),973(docker)
-```
+# Output: uid=1000(alvaro) gid=984(users) groups=984(users),998(wheel),973(docker)
 
-Then in the docker-compose.yml add the following environment variables:
-
-```yaml
 # docker-compose.yml
-# In this example the user is alvaro 1000 and the group is users 984
+# In this example, 'alvaro' is the user with ID 1000 and 'users' is the group with ID 984.
 environment:
   - PUID=1000
   - PGID=984
 ```
 
-# Update the container
+# Updating the Container
+
+For keeping your container up-to-date, you have two options. You can either use the provided makefile command:
 
 ```sh
 make update-container
 ```
-or
+or manually stop, pull the latest image, and restart the container using Docker Compose:
 ```sh
 docker-compose stop
 docker-compose pull
 docker-compose up -d
-``` 
+```
 
 # Running the server
 
@@ -115,42 +114,40 @@ To see the logs of the server, run the following command:
 docker-compose logs -f 
 ```
 
-## Using the makefile 
-You can use the makefile on this repo
+## Utilizing the Makefile 
+You can leverage the Makefile provided in this repository for common operations. Here's a brief overview of what you can do:
+
 ```sh
-# run the server
+# To start the server
 make start
 
-# stop the server
+# To stop the server
 make stop
 
-# down the server
+# To bring down the server
 make down
 
-# build the server
-# useful if you want to update the purpurmc version
-# you won't lose your world, plugins or config files 😉
+# To build the server (useful for updating the PurpurMC version). 
+# Don't worry about losing your world, plugins, or configuration files — they are safe.
 make build
 
-# restart the server
-# useful if you want to update the config or plugin files 
+# To restart the server (useful for refreshing configuration or plugin files)
 make restart
 
-# attach to the server console
-# you can use the server commands like /op /reload, etc
+# To attach to the server console. This allows you to execute server commands like /op, /reload, etc.
 # Remember to use CTRL + P + Q to detach from the console without stopping the server
 make attach
 
-# show the last 20 lines of the log
+# To display the last 20 lines of the server log
 make logs
 ```
 
 
 # Common issues
 
-* I can't upload/remove/edit files. [🔎 Click Here](#Running-as-non-root-user)
+* I can't upload/remove/edit files. [🔎 Click Here](#Executing-as-a-Non-root-User)
 * Problems downloading .jar from mojang servers [🔎 Click Here](#Problems-downloading-jar-from-mojang-servers)
-* The server crashes with Spark Profiler Modify the [🔎 docker-compose.yml](#creating-a-docker-composeyml-file)
+* The server crashes with Spark Profiler Modify the [🔎 docker-compose.yml](#Configuring-a-docker-compose-File)
   * Add this flag `-DPurpur.IReallyDontWantSpark=true` to the `PURPURMC_FLAGS` environment variable.
 
 
