@@ -1,4 +1,4 @@
-name: Build and push
+name: 🎮 Build and push (Experimental versions)
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 💻 Checkout code
+      - name: 💻 Checkout code - Main Branch
         uses: actions/checkout@v3
       - name: ⏬ Update Readme.md and description
         uses: meeDamian/sync-readme@v1.0.6
@@ -41,5 +41,5 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: als3bas/zulu-purpurmc:latest,als3bas/zulu-purpurmc:${{ env.MC_VERSION }}
+          tags: als3bas/zulu-purpurmc:latest,als3bas/zulu-purpurmc:experimental-${{ vars.MC_VERSION }}
           build-args: MC_VERSION=${{ vars.MC_VERSION }}

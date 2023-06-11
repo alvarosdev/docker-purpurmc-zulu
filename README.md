@@ -39,7 +39,6 @@ version: "3.9"
 services:
   minecraft:
     container_name: "mcserver"
-    # image: "als3bas/zulu-purpurmc:1.19.4"
     image: "als3bas/zulu-purpurmc:latest"
     # If you want to build the image locally, uncomment this 3 lines and comment the image line above.
     # build: 

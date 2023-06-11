@@ -1,9 +1,9 @@
-name: Build and push
+name: 👩🏻‍🔬 Build and push (Experimental versions)
 
 on:
   push:
     branches:
-      - "feature/*"
+      - "main"
   schedule:
     - cron: "0 */24 * * *"
 
@@ -14,18 +14,11 @@ jobs:
   build:
     name: 🏃‍♂️ Build container
     runs-on: ubuntu-latest
+    if: ${{ vars.MC_VERSION_EXPERIMENTAL == '' }}
 
     steps:
-      - name: 💻 Checkout code
+      - name: 👩🏻‍🔬 Checkout code - Experimental Branch
         uses: actions/checkout@v3
-      - name: ⏬ Update Readme.md and description
-        uses: meeDamian/sync-readme@v1.0.6
-        with:
-          user: ${{ secrets.DOCKER_HUB_USERNAME }}
-          pass: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          slug: als3bas/zulu-purpurmc
-          readme: ./README.md
-          description: Minecraft ${{ vars.MC_VERSION_EXPERIMENTAL }} Server Running on PurpurMC and Zulu OpenJDK.
       - name: 📦 Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: 📦 Set up Docker Buildx
@@ -41,5 +34,5 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: als3bas/zulu-purpurmc:latest,als3bas/zulu-purpurmc:${{ vars.MC_VERSION_EXPERIMENTAL }}
+          tags: als3bas/zulu-purpurmc:experimental,als3bas/zulu-purpurmc:${{ vars.MC_VERSION_EXPERIMENTAL }}-experimental
           build-args: MC_VERSION=${{ vars.MC_VERSION_EXPERIMENTAL }}
