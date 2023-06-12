@@ -12,7 +12,7 @@ jobs:
   build:
     name: 🏃‍♂️ Build container
     runs-on: ubuntu-latest
-    if: ${{ vars.MC_VERSION_PRE != '' }}
+    if: ${{ vars.MC_VERSION_PRE != 'NA' }}
 
     steps:
       - name: 👩🏻‍🔬 Checkout code - Experimental Branch
