@@ -1,15 +1,12 @@
 # -- Build ---
-FROM azul/zulu-openjdk-debian:17-latest AS build
+FROM alpine:latest AS build
 LABEL Sebas Álvaro <https://asgg.cl>
 
-ARG TARGETARCH
+ARG MC_VERSION
 ARG MC_VERSION
 RUN echo $MC_VERSION
 
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
+RUN apk update && apk upgrade && apk add curl
 WORKDIR /opt/minecraft
 
 RUN rm /opt/minecraft/purpurmc.jar || true
@@ -18,11 +15,8 @@ RUN chmod +x /getpurpurserver.sh && \
     /getpurpurserver.sh ${MC_VERSION}
 
 # --- Runtime ---
-FROM azul/zulu-openjdk-debian:17-latest AS runtime
-RUN apt-get update && apt-get install -y \
-    curl \
-    jq \
-    && rm -rf /var/lib/apt/lists/*
+FROM azul/zulu-openjdk-alpine:17-latest AS runtime
+RUN apk update && apk upgrade && apk add curl jq
 
 ARG TARGETARCH
 ARG GOSUVERSION=1.16
