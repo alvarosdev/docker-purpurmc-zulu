@@ -5,13 +5,14 @@ on:
     branches:
       - "main"
   schedule:
-    - cron: '0 */12 * * *'
+    - cron: "0 */12 * * *"
   workflow_dispatch:
 
 jobs:
   build:
     name: 🏃‍♂️ Build container
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: 💻 Checkout code - Main Branch
