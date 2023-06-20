@@ -3,7 +3,6 @@ FROM alpine:latest AS build
 LABEL Sebas Álvaro <https://asgg.cl>
 
 ARG MC_VERSION
-ARG MC_VERSION
 RUN echo $MC_VERSION
 
 RUN apk update && apk upgrade && apk add curl
@@ -15,7 +14,7 @@ RUN chmod +x /getpurpurserver.sh && \
     /getpurpurserver.sh ${MC_VERSION}
 
 # --- Runtime ---
-FROM azul/zulu-openjdk-alpine:17-latest AS runtime
+FROM azul/zulu-openjdk-alpine:17-jre-latest AS runtime
 RUN apk update && apk upgrade && apk add curl jq
 
 ARG TARGETARCH
