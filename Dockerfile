@@ -14,7 +14,7 @@ RUN chmod +x /getpurpurserver.sh && \
     /getpurpurserver.sh ${MC_VERSION}
 
 # --- Runtime ---
-FROM azul/zulu-openjdk-alpine:17-jre-latest AS runtime
+FROM azul/zulu-openjdk-alpine:21-jre-latest AS runtime
 RUN apk update && apk upgrade && apk add curl jq
 
 ARG TARGETARCH
